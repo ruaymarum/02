@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แผนกลยุทธ์ธุรกิจ: บริการพิมพ์ป้ายโฆษณา UV คุณภาพสูง</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutral Professional (#FDFBF8, #333333, #A0522D, #D2B48C) -->
+    <!-- Application Structure Plan: A single-page, scrollable narrative dashboard designed for executive review. The structure guides the user from the high-level market opportunity to the detailed strategic plan and investment ask. This linear storytelling approach is more persuasive than a fragmented, tab-based structure. Key interactions include an interactive market growth chart, a clickable competitor comparison, and a phased timeline for the marketing plan, all designed to make complex information easily digestible and engaging. -->
+    <!-- Visualization & Content Choices: 1. Market Growth (Data from Report [1,2,3]) -> Goal: Inform/Impress -> Viz: Bar Chart -> Interaction: Hover for details -> Justification: Visually demonstrates the core market trend driving the opportunity -> Library: Chart.js. 2. Competitor Analysis (Data from Report Ch. 2) -> Goal: Compare/Highlight Gap -> Viz: Interactive HTML Table/Cards -> Interaction: Click to reveal details -> Justification: Condenses dense information and highlights our key differentiator (UX) -> Library: Vanilla JS. 3. Marketing Plan (Data from Report Ch. 4) -> Goal: Organize/Explain -> Viz: Tabbed Timeline -> Interaction: Click tabs for phase details -> Justification: Breaks down a complex 6-month plan into manageable, clear stages -> Library: Vanilla JS. 4. Marketing Budget (Data from Report Table 4.1) -> Goal: Inform -> Viz: Donut Chart -> Interaction: Hover for values -> Justification: Provides a quick, visual summary of resource allocation -> Library: Chart.js. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #FDFBF8;
+            color: #333333;
+        }
+        .bg-primary { background-color: #A0522D; }
+        .text-primary { color: #A0522D; }
+        .bg-secondary { background-color: #D2B48C; }
+        .text-secondary { color: #D2B48C; }
+        .border-primary { border-color: #A0522D; }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+        }
+        .nav-link.active {
+            color: #A0522D;
+            border-bottom: 2px solid #A0522D;
+        }
+        .nav-link:hover {
+            color: #A0522D;
+        }
+        .competitor-row {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .competitor-row:hover {
+            background-color: #F7F3EE;
+        }
+        .tab-btn.active {
+            background-color: #A0522D;
+            color: white;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="sticky top-0 bg-white/80 backdrop-blur-md shadow-sm z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-primary">UV Signage Strategy</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#opportunity" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700">โอกาสทางธุรกิจ</a>
+                        <a href="#solution" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700">ข้อเสนอของเรา</a>
+                        <a href="#market" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700">ภูมิทัศน์ตลาด</a>
+                        <a href="#strategy" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700">กลยุทธ์</a>
+                        <a href="#plan" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700">แผนการดำเนินงาน</a>
+                        <a href="#ask" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700">ข้อเสนอเพื่อพิจารณา</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <section id="hero" class="text-center py-16">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-primary leading-tight">แผนกลยุทธ์การลงทุนธุรกิจบริการพิมพ์ป้าย UV ออนไลน์</h1>
+            <p class="mt-4 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                บทวิเคราะห์โอกาสในการสร้างความได้เปรียบทางการแข่งขันในตลาดป้ายโฆษณาของไทย ผ่านนวัตกรรมด้านเทคโนโลยีและประสบการณ์ลูกค้าดิจิทัล
+            </p>
+        </section>
+
+        <section id="opportunity" class="py-16 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-primary">ทำไมต้องตอนนี้? The Perfect Storm แห่งโอกาส</h2>
+                <p class="mt-2 text-gray-600 max-w-2xl mx-auto">ตลาดกำลังอยู่ในจุดเปลี่ยนที่สำคัญ จากการเติบโตของสื่อดิจิทัลที่สร้างความต้องการใหม่สำหรับป้ายคุณภาพสูง เพื่อรักษาภาพลักษณ์ของแบรนด์ให้สอดคล้องกันในทุกช่องทาง</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="order-2 md:order-1">
+                    <h3 class="text-2xl font-semibold mb-4">การเติบโตของงบโฆษณาดิจิทัลในไทย</h3>
+                    <p class="text-gray-700 mb-4">
+                        การลงทุนมหาศาลในสื่อดิจิทัลสร้างความคาดหวังของผู้บริโภคต่อภาพลักษณ์แบรนด์ที่สูงขึ้น ทำให้ป้ายหน้าร้านหรือในสำนักงานกลายเป็น "จุดพิสูจน์" คุณภาพของแบรนด์ที่จับต้องได้ การเติบโตของงบโฆษณาดิจิทัลจึงเป็นดัชนีชี้นำโดยตรงต่อความต้องการป้ายคุณภาพพรีเมียม
+                    </p>
+                    <div class="text-lg font-bold text-primary">มูลค่าตลาดคาดการณ์ปี 2568: <span class="text-3xl">34,556</span> ล้านบาท</div>
+                </div>
+                <div class="order-1 md:order-2 chart-container">
+                    <canvas id="marketGrowthChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="solution" class="py-16 bg-white rounded-2xl shadow-lg scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-primary">ข้อเสนอของเรา: นวัตกรรมที่สร้างความแตกต่าง</h2>
+                <p class="mt-2 text-gray-600 max-w-2xl mx-auto">เราไม่ได้แค่ขายป้าย แต่เรามอบประสบการณ์การสั่งซื้อที่เหนือกว่าผ่านแพลตฟอร์ม E-commerce ที่แก้ปัญหาความยุ่งยากของตลาดแบบดั้งเดิม</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <div class="border border-red-200 rounded-lg p-6 text-center">
+                    <h3 class="text-xl font-bold text-red-600 mb-2">The Old Way (คู่แข่งปัจจุบัน)</h3>
+                    <ul class="text-left space-y-2 text-gray-700">
+                        <li><span class="text-red-500 mr-2">✘</span>เว็บไซต์เป็นเพียงแคตตาล็อก</li>
+                        <li><span class="text-red-500 mr-2">✘</span>ต้องติดต่อขอใบเสนอราคา</li>
+                        <li><span class="text-red-500 mr-2">✘</span>กระบวนการช้า ไม่โปร่งใส</li>
+                        <li><span class="text-red-500 mr-2">✘</span>เน้นขาย "สเปค" ไม่ใช่ "ผลลัพธ์"</li>
+                    </ul>
+                </div>
+                <div class="border-2 border-primary rounded-lg p-6 text-center bg-amber-50">
+                     <h3 class="text-xl font-bold text-primary mb-2">The New Way (ข้อเสนอของเรา)</h3>
+                     <ul class="text-left space-y-2 text-gray-700">
+                        <li><span class="text-green-500 font-bold mr-2">✔</span>แพลตฟอร์ม E-commerce เต็มรูปแบบ</li>
+                        <li><span class="text-green-500 font-bold mr-2">✔</span>คำนวณราคาอัตโนมัติ ทันที</li>
+                        <li><span class="text-green-500 font-bold mr-2">✔</span>สั่งซื้อง่าย รวดเร็ว โปร่งใส</li>
+                        <li><span class="text-green-500 font-bold mr-2">✔</span>สื่อสาร "คุณค่า" ที่ธุรกิจจะได้รับ</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center mt-8">
+                <p class="text-lg font-semibold">Unique Selling Proposition (USP):</p>
+                <p class="text-2xl font-bold text-primary mt-1">"บริการสั่งทำป้าย UV คุณภาพพรีเมียมแบบเฉพาะบุคคล ที่ง่ายดายผ่านช่องทางออนไลน์"</p>
+            </div>
+        </section>
+
+        <section id="market" class="py-16 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-primary">ภูมิทัศน์ตลาดและการวิเคราะห์คู่แข่ง</h2>
+                <p class="mt-2 text-gray-600 max-w-2xl mx-auto">คู่แข่งส่วนใหญ่ยังคงดำเนินธุรกิจในรูปแบบดั้งเดิม ซึ่งเปิดช่องว่างมหาศาลสำหรับผู้เล่นที่นำเทคโนโลยีและประสบการณ์ลูกค้าเป็นตัวนำ (คลิกที่ชื่อเพื่อดูรายละเอียด)</p>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left text-gray-500">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">คู่แข่ง</th>
+                            <th scope="col" class="px-6 py-3 hidden sm:table-cell">บริการหลัก</th>
+                            <th scope="col" class="px-6 py-3">UX ออนไลน์ (1-5)</th>
+                            <th scope="col" class="px-6 py-3">จุดอ่อนสำคัญ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-white border-b competitor-row" data-competitor="octopus">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">Octopus Media Solutions</th>
+                            <td class="px-6 py-4 hidden sm:table-cell">ครบวงจร, ติดตั้งทั่วประเทศ</td>
+                            <td class="px-6 py-4">2/5</td>
+                            <td class="px-6 py-4">สั่งซื้อไม่อัตโนมัติ</td>
+                        </tr>
+                        <tr class="bg-white border-b competitor-row" data-competitor="dicutter">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">Dicutter Shop</th>
+                            <td class="px-6 py-4 hidden sm:table-cell">พิมพ์ UV บนอะคริลิค</td>
+                            <td class="px-6 py-4">2/5</td>
+                            <td class="px-6 py-4">สื่อสารเน้นเทคนิคเกินไป</td>
+                        </tr>
+                        <tr class="bg-white border-b competitor-row" data-competitor="hlvision">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">HL VISION</th>
+                            <td class="px-6 py-4 hidden sm:table-cell">พิมพ์ UV, อิงค์เจ็ท</td>
+                            <td class="px-6 py-4">2/5</td>
+                            <td class="px-6 py-4">ไม่มีจุดต่างที่ชัดเจน</td>
+                        </tr>
+                        <tr class="bg-white competitor-row" data-competitor="acrylicdd">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">AcrylicDD</th>
+                            <td class="px-6 py-4 hidden sm:table-cell">เชี่ยวชาญอะคริลิค</td>
+                            <td class="px-6 py-4">3/5</td>
+                            <td class="px-6 py-4">ตลาดจำกัด</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="competitor-details" class="mt-8"></div>
+        </section>
+
+        <section id="strategy" class="py-16 bg-white rounded-2xl shadow-lg scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-primary">กลยุทธ์ของเรา: เจาะจง ชัดเจน และแตกต่าง</h2>
+                <p class="mt-2 text-gray-600 max-w-2xl mx-auto">เราจะมุ่งเน้นกลุ่มลูกค้ามูลค่าสูงด้วยผลิตภัณฑ์ที่คัดสรรมาอย่างดี และกลยุทธ์ราคาที่โปร่งใส สะท้อนถึงคุณค่าที่เหนือกว่า</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-amber-50 p-6 rounded-lg">
+                    <h3 class="font-bold text-lg mb-2 text-primary">กลุ่มเป้าหมายหลัก: "คุณพลอย"</h3>
+                    <p class="text-sm text-gray-600">เจ้าของธุรกิจเชิงสุนทรียภาพ (คาเฟ่, คลินิก) ที่ให้ความสำคัญกับภาพลักษณ์แบรนด์ และต้องการความสะดวกสบายในการสั่งซื้อออนไลน์</p>
+                </div>
+                <div class="bg-amber-50 p-6 rounded-lg">
+                     <h3 class="font-bold text-lg mb-2 text-primary">กลุ่มผลิตภัณฑ์ที่คัดสรร</h3>
+                     <ul class="list-disc list-inside text-sm text-gray-600">
+                        <li>ป้ายอะคริลิค (ทันสมัย)</li>
+                        <li>ป้ายพลาสวูด/ไม้ (อบอุ่น)</li>
+                        <li>ป้ายคอมโพสิต/โลหะ (พรีเมียม)</li>
+                     </ul>
+                </div>
+                <div class="bg-amber-50 p-6 rounded-lg md:col-span-2 lg:col-span-1">
+                    <h3 class="font-bold text-lg mb-2 text-primary">กลยุทธ์ราคาตามคุณค่า</h3>
+                    <p class="text-sm text-gray-600">ราคาโปร่งใส คำนวณอัตโนมัติบนเว็บไซต์ สะท้อนคุณภาพที่เหนือกว่าและประสบการณ์ที่สะดวกสบาย ไม่ใช่การแข่งขันด้านราคา</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="plan" class="py-16 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-primary">แผนการดำเนินงาน 6 เดือนแรก</h2>
+                <p class="mt-2 text-gray-600 max-w-2xl mx-auto">แผนการตลาดดิจิทัลที่ออกแบบมาเพื่อสร้างการรับรู้, ดึงดูดลูกค้า และสร้างยอดขายอย่างเป็นระบบ</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8 items-start">
+                <div class="md:col-span-2">
+                    <div class="mb-4 flex space-x-2 p-1 bg-gray-200 rounded-lg">
+                        <button class="tab-btn flex-1 py-2 px-4 rounded-md text-sm font-medium transition active" data-tab="1">เดือน 1-2: วางรากฐาน</button>
+                        <button class="tab-btn flex-1 py-2 px-4 rounded-md text-sm font-medium transition" data-tab="2">เดือน 3-4: สร้างลูกค้า</button>
+                        <button class="tab-btn flex-1 py-2 px-4 rounded-md text-sm font-medium transition" data-tab="3">เดือน 5-6: ขยายผล</button>
+                    </div>
+                    <div id="tab-content" class="bg-white p-6 rounded-lg shadow">
+                    </div>
+                </div>
+                <div class="chart-container h-64 md:h-80">
+                    <canvas id="budgetChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="ask" class="py-16 bg-primary text-white rounded-2xl shadow-lg scroll-mt-20">
+            <div class="text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold">ข้อเสนอเพื่อพิจารณาอนุมัติ</h2>
+                <p class="mt-4">
+                    การลงทุนในธุรกิจนี้มีศักยภาพในการเติบโตสูง โดยอาศัยความได้เปรียบจากแนวโน้มตลาด, เทคโนโลยีที่เหนือกว่า และรูปแบบธุรกิจที่แตกต่าง จึงขอเสนอให้คณะผู้บริหารพิจารณาอนุมัติการลงทุนเพื่อดำเนินการตามแผนกลยุทธ์
+                </p>
+                <div class="mt-8">
+                    <h3 class="font-semibold text-lg mb-2">ปัจจัยสำคัญสู่ความสำเร็จ</h3>
+                    <ul class="space-y-1">
+                        <li>✔ สร้างประสบการณ์สั่งซื้อออนไลน์ที่เหนือกว่า</li>
+                        <li>✔ รักษาคุณภาพงานพิมพ์ระดับพรีเมียม</li>
+                        <li>✔ การตลาดดิจิทัลที่วัดผลและปรับปรุงเสมอ</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm">
+            <p>เอกสารประกอบการตัดสินใจเชิงกลยุทธ์ | สิงหาคม 2568</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const marketGrowthData = {
+                labels: ['2566', '2567 (E)', '2568 (F)'],
+                datasets: [{
+                    label: 'มูลค่า (ล้านบาท)',
+                    data: [27689, 31544, 34556],
+                    backgroundColor: 'rgba(160, 82, 45, 0.2)',
+                    borderColor: 'rgba(160, 82, 45, 1)',
+                    borderWidth: 2,
+                    borderRadius: 5,
+                }]
+            };
+
+            const marketGrowthCtx = document.getElementById('marketGrowthChart').getContext('2d');
+            new Chart(marketGrowthCtx, {
+                type: 'bar',
+                data: marketGrowthData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'มูลค่าตลาดโฆษณาดิจิทัลไทย' }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString('th-TH') + ' ลบ.';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const budgetData = {
+                labels: ['เดือน 1-2: วางรากฐาน', 'เดือน 3-4: สร้างลูกค้า', 'เดือน 5-6: ขยายผล'],
+                datasets: [{
+                    data: [150000, 250000, 200000],
+                    backgroundColor: ['#D2B48C', '#A0522D', '#C4A484'],
+                    hoverOffset: 4
+                }]
+            };
+
+            const budgetCtx = document.getElementById('budgetChart').getContext('2d');
+            new Chart(budgetCtx, {
+                type: 'doughnut',
+                data: budgetData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        title: { display: true, text: 'สัดส่วนงบประมาณการตลาด 6 เดือน (รวม 600,000 บาท)' }
+                    }
+                }
+            });
+
+            const competitorData = {
+                octopus: {
+                    name: "Octopus Media Solutions",
+                    strength: "บริการครบวงจร มีชื่อเสียงในตลาด B2B และมีทีมติดตั้งทั่วประเทศ",
+                    weakness: "กระบวนการสั่งซื้อยังเป็นแบบดั้งเดิม ต้องรอใบเสนอราคา ขาดความโปร่งใสด้านราคาเริ่มต้นสำหรับลูกค้ารายย่อย"
+                },
+                dicutter: {
+                    name: "Dicutter Shop",
+                    strength: "วางตำแหน่งเป็นโรงงานโดยตรง สร้างความเชื่อมั่นด้านราคาและเทคนิค",
+                    weakness: "การสื่อสารเน้นด้านเทคนิคมากเกินไป อาจไม่เข้าถึงเจ้าของธุรกิจที่เน้นด้านการตลาดและภาพลักษณ์ เว็บไซต์ UX ล้าสมัย"
+                },
+                hlvision: {
+                    name: "HL VISION",
+                    strength: "มีประสบการณ์ในตลาดมานาน สร้างความน่าเชื่อถือได้",
+                    weakness: "ไม่มีจุดเด่นหรือความแตกต่างที่ชัดเจนจากคู่แข่งรายอื่นในตลาด ยังคงพึ่งพากระบวนการขายแบบดั้งเดิม"
+                },
+                acrylicdd: {
+                    name: "AcrylicDD",
+                    strength: "เป็นผู้เชี่ยวชาญเฉพาะทางด้านอะคริลิค ทำให้ดูน่าเชื่อถือสำหรับลูกค้าที่ต้องการงานประเภทนี้โดยเฉพาะ",
+                    weakness: "จำกัดตัวเองอยู่แค่วัสดุชนิดเดียว ทำให้พลาดโอกาสจากลูกค้าที่ต้องการความหลากหลายของวัสดุ"
+                }
+            };
+            
+            const competitorRows = document.querySelectorAll('.competitor-row');
+            const detailsContainer = document.getElementById('competitor-details');
+
+            competitorRows.forEach(row => {
+                row.addEventListener('click', () => {
+                    const competitorKey = row.dataset.competitor;
+                    const data = competitorData[competitorKey];
+                    
+                    detailsContainer.innerHTML = `
+                        <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-primary transition-all duration-300">
+                            <h4 class="font-bold text-lg text-primary">${data.name}</h4>
+                            <p class="mt-2 text-sm"><strong class="font-semibold">จุดแข็ง:</strong> ${data.strength}</p>
+                            <p class="mt-1 text-sm"><strong class="font-semibold">จุดอ่อน/โอกาส:</strong> ${data.weakness}</p>
+                        </div>
+                    `;
+                });
+            });
+
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContentContainer = document.getElementById('tab-content');
+            const tabData = {
+                '1': {
+                    title: 'เดือน 1-2: การวางรากฐานและสร้างการรับรู้',
+                    kpi: 'Reach, Engagement Rate',
+                    activities: [
+                        'เปิดตัวเว็บไซต์ E-commerce ที่สมบูรณ์แบบ',
+                        'สร้างโปรไฟล์ Social Media (FB, IG) พร้อมผลงานคุณภาพสูง',
+                        'ยิงโฆษณา Brand Awareness บน Meta เจาะกลุ่มเป้าหมาย'
+                    ]
+                },
+                '2': {
+                    title: 'เดือน 3-4: การสร้างลูกค้าเป้าหมายและการมีส่วนร่วม',
+                    kpi: 'Website Clicks, Leads, Cost Per Lead (CPL)',
+                    activities: [
+                        'เปิดแคมเปญ Google Ads (Search) ด้วย Keywords ที่มีแนวโน้มซื้อสูง',
+                        'สร้างคอนเทนต์วิดีโอสั้น (Reels, TikTok) แสดงเบื้องหลังการผลิต',
+                        'ร่วมมือกับ Micro-Influencer กลุ่มคาเฟ่และดีไซน์'
+                    ]
+                },
+                '3': {
+                    title: 'เดือน 5-6: การขยายผลและสร้างพันธมิตร',
+                    kpi: 'Conversions (Sales), Cost Per Acquisition (CPA), ROAS',
+                    activities: [
+                        'ปรับปรุงประสิทธิภาพโฆษณาโดยเน้นแคมเปญที่ ROAS สูง',
+                        'เริ่มทำ Retargeting Ads เข้าถึงคนที่เคยเข้าชมเว็บ',
+                        'ติดต่อเชิงรุกไปยังบริษัทออกแบบและเอเจนซี่เพื่อสร้างพันธมิตร'
+                    ]
+                }
+            };
+
+            function updateTabContent(tabId) {
+                const data = tabData[tabId];
+                tabContentContainer.innerHTML = `
+                    <h4 class="font-bold text-lg text-primary mb-2">${data.title}</h4>
+                    <p class="text-sm font-semibold text-gray-700">KPI หลัก: <span class="font-normal">${data.kpi}</span></p>
+                    <ul class="mt-3 list-disc list-inside space-y-2 text-gray-600">
+                        ${data.activities.map(activity => `<li>${activity}</li>`).join('')}
+                    </ul>
+                `;
+            }
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    updateTabContent(button.dataset.tab);
+                });
+            });
+            
+            updateTabContent('1');
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section[id]');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
+                        });
+                    }
+                });
+            }, { rootMargin: "-50% 0px -50% 0px" });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>
