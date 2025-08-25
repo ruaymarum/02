@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategic Blueprint: โรงงานป้าย 8 ล้านบาท</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Stone & Teal -->
+    <!-- Application Structure Plan: A tabbed/navigated SPA with four main sections: Mission Overview, Marketing, Operations, and a KPI Dashboard. This structure breaks down the complex strategy into manageable, user-selectable parts, prioritizing ease of navigation over a linear document format. The interactive dashboard makes the tracking process tangible for the business owner. -->
+    <!-- Visualization & Content Choices: Marketing Budget -> Interactive Stacked Bar Chart (Chart.js) to show monthly allocation shifts. Revenue Goals -> Line Chart (Chart.js) to visualize growth trajectory. B2B Funnel -> Clickable HTML/CSS Diagram for process exploration. Production Capacity -> Bar Chart (Chart.js) to highlight operational bottlenecks. KPIs -> Dynamic HTML Grid to simulate a real-time control panel. All choices prioritize interactivity and data clarity. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #f5f5f4; /* stone-100 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 50vh;
+        }
+        .nav-btn {
+            transition: all 0.3s ease;
+        }
+        .nav-btn.active {
+            background-color: #0d9488; /* teal-600 */
+            color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .kpi-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .kpi-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .status-green { background-color: #22c55e; }
+        .status-yellow { background-color: #f59e0b; }
+        .status-red { background-color: #ef4444; }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .funnel-step, .workflow-step {
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+         .funnel-step:hover, .workflow-step:hover {
+            background-color: #f0fdfa; /* teal-50 */
+        }
+    </style>
+</head>
+<body class="text-stone-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-teal-700">Market Domination & Scaling Blueprint</h1>
+            <p class="text-lg text-stone-600 mt-2">แผนกลยุทธ์สู่ยอดขาย 8 ล้านบาทใน 4 เดือน</p>
+        </header>
+
+        <nav class="flex flex-wrap justify-center gap-2 md:gap-4 mb-8">
+            <button data-target="overview" class="nav-btn active text-sm md:text-base font-semibold py-2 px-4 rounded-full bg-white shadow-sm border border-stone-200">ภาพรวมภารกิจ</button>
+            <button data-target="marketing" class="nav-btn text-sm md:text-base font-semibold py-2 px-4 rounded-full bg-white shadow-sm border border-stone-200">กลยุทธ์การตลาด</button>
+            <button data-target="operations" class="nav-btn text-sm md:text-base font-semibold py-2 px-4 rounded-full bg-white shadow-sm border border-stone-200">แผนปฏิบัติการ</button>
+            <button data-target="dashboard" class="nav-btn text-sm md:text-base font-semibold py-2 px-4 rounded-full bg-white shadow-sm border border-stone-200">Dashboard ควบคุม</button>
+        </nav>
+
+        <main>
+            <section id="overview" class="content-section active space-y-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold text-teal-600 mb-4">พันธกิจ 8M/4M: สรุปสำหรับผู้บริหาร</h2>
+                    <p class="text-stone-700 leading-relaxed">นี่คือแผนแม่บทเชิงรุกเพื่อสร้างรายได้ 8,000,000 บาท ภายใน 120 วันข้างหน้า ผ่านการโจมตีสองแกนหลัก: **การครอบครองตลาด B2B/B2G มูลค่าสูง** และ **การขยายตลาด B2C ความเร็วสูง** ความสำเร็จขึ้นอยู่กับการใช้เม็ดเงินอย่างดุดัน, การเสริมความแข็งแกร่งฝ่ายปฏิบัติการ, และการดำเนินงานบนพื้นฐานของข้อมูลอย่างเคร่งครัด</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold text-stone-800 mb-3">เป้าหมายรายได้แบบขั้นบันได</h3>
+                        <p class="text-stone-600 mb-4">การแบ่งเป้าหมาย 8 ล้านบาทออกเป็นเป้ารายเดือน ช่วยให้บริหารจัดการและสร้างแรงผลักดันได้อย่างต่อเนื่อง</p>
+                        <div class="chart-container h-64 md:h-80">
+                            <canvas id="revenueGoalChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold text-stone-800 mb-3">3 เสาหลักแห่งความสำเร็จ</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <span class="text-teal-500 text-2xl font-bold mr-4">1</span>
+                                <div>
+                                    <h4 class="font-semibold">การใช้เม็ดเงินอย่างดุดัน</h4>
+                                    <p class="text-stone-600">ทุ่มงบ 300,000 บาท/เดือน ไปยังช่องทางที่วัดผล ROAS ได้สูงสุด</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-teal-500 text-2xl font-bold mr-4">2</span>
+                                <div>
+                                    <h4 class="font-semibold">การเสริมแกร่งฝ่ายปฏิบัติการ</h4>
+                                    <p class="text-stone-600">ปรับโครงสร้างกระบวนการทำงานเพื่อรองรับออเดอร์มหาศาล</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-teal-500 text-2xl font-bold mr-4">3</span>
+                                <div>
+                                    <h4 class="font-semibold">การดำเนินงานบนข้อมูล</h4>
+                                    <p class="text-stone-600">ตัดสินใจเชิงกลยุทธ์จาก KPI Dashboard ที่วัดผลทุกสัปดาห์</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="marketing" class="content-section space-y-8">
+                 <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold text-teal-600 mb-4">กลยุทธ์การตลาดและการขาย</h2>
+                    <p class="text-stone-700 leading-relaxed">นี่คือแผนการบุกตลาดเพื่อสร้างการรับรู้และดึงดูดลูกค้าเป้าหมายจำนวนมหาศาล ประกอบด้วยการจัดสรรงบประมาณอย่างมีกลยุทธ์ แคมเปญที่ออกแบบมาเพื่อลูกค้าแต่ละกลุ่ม และกระบวนการขาย B2B ที่ชัดเจน</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-stone-800 mb-3">การจัดสรรงบประมาณการตลาด 1.2 ล้านบาท</h3>
+                    <p class="text-stone-600 mb-4">ภาพรวมการลงทุนในแต่ละช่องทางตลอด 4 เดือน เน้นช่องทาง B2B ที่มีมูลค่าสูงในช่วงแรกเพื่อสร้างไปป์ไลน์ และช่องทาง B2C เพื่อสร้างกระแสเงินสด</p>
+                    <div class="chart-container">
+                        <canvas id="budgetChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-stone-800 mb-3">ไปป์ไลน์การขาย B2B: จากคนแปลกหน้าสู่คู่ค้า</h3>
+                    <p class="text-stone-600 mb-6">กระบวนการ 5 ขั้นตอนที่ชัดเจนสำหรับทีมแอดมิน เพื่อเปลี่ยน Lead ที่ได้จากโฆษณาให้กลายเป็นยอดขายอย่างมีประสิทธิภาพ (คลิกแต่ละขั้นตอนเพื่อดูรายละเอียด)</p>
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-2 text-center">
+                        <div class="funnel-step w-full p-4 border-2 border-stone-200 rounded-lg" data-detail="funnel-1">
+                            <h4 class="font-semibold">1. เก็บ Lead</h4>
+                            <p class="text-sm text-stone-500">TOFU</p>
+                        </div>
+                        <div class="text-teal-500 text-2xl font-light transform md:rotate-0 rotate-90">&rarr;</div>
+                        <div class="funnel-step w-full p-4 border-2 border-stone-200 rounded-lg" data-detail="funnel-2">
+                            <h4 class="font-semibold">2. คัดกรอง</h4>
+                            <p class="text-sm text-stone-500">MOFU</p>
+                        </div>
+                        <div class="text-teal-500 text-2xl font-light transform md:rotate-0 rotate-90">&rarr;</div>
+                        <div class="funnel-step w-full p-4 border-2 border-stone-200 rounded-lg" data-detail="funnel-3">
+                            <h4 class="font-semibold">3. เสนอราคา</h4>
+                            <p class="text-sm text-stone-500">MOFU</p>
+                        </div>
+                        <div class="text-teal-500 text-2xl font-light transform md:rotate-0 rotate-90">&rarr;</div>
+                        <div class="funnel-step w-full p-4 border-2 border-stone-200 rounded-lg" data-detail="funnel-4">
+                            <h4 class="font-semibold">4. ติดตามผล</h4>
+                             <p class="text-sm text-stone-500">BOFU</p>
+                        </div>
+                        <div class="text-teal-500 text-2xl font-light transform md:rotate-0 rotate-90">&rarr;</div>
+                        <div class="funnel-step w-full p-4 border-2 border-teal-500 rounded-lg bg-teal-50" data-detail="funnel-5">
+                            <h4 class="font-semibold text-teal-700">5. ปิดการขาย</h4>
+                            <p class="text-sm text-teal-600">Closed-Won</p>
+                        </div>
+                    </div>
+                    <div id="funnel-details" class="mt-6 p-4 bg-stone-50 rounded-md border border-stone-200 hidden">
+                        <h5 id="funnel-detail-title" class="font-bold text-lg mb-2"></h5>
+                        <p id="funnel-detail-text"></p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="operations" class="content-section space-y-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold text-teal-600 mb-4">แผนยกระดับปฏิบัติการ</h2>
+                    <p class="text-stone-700 leading-relaxed">ระบบภายในที่แข็งแกร่งคือหัวใจของการเติบโต หากไม่มีการวางแผนที่ดี ความสำเร็จทางการตลาดจะนำไปสู่ความล้มเหลวในการผลิต ส่วนนี้คือแผนการเสริมความแข็งแกร่งให้ฝ่ายปฏิบัติการเพื่อรองรับการเติบโตแบบก้าวกระโดด</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold text-stone-800 mb-3">การวิเคราะห์กำลังการผลิต</h3>
+                        <p class="text-stone-600 mb-4">เปรียบเทียบชั่วโมงการทำงานที่มีประสิทธิภาพกับภาระงานที่คาดการณ์ ณ ยอดขาย 2 ล้านบาท/เดือน เพื่อระบุคอขวด</p>
+                        <div class="chart-container h-80">
+                            <canvas id="capacityChart"></canvas>
+                        </div>
+                         <p class="text-sm text-center mt-4 text-stone-600">
+                           <span class="inline-block w-3 h-3 bg-teal-500 rounded-sm mr-2"></span>กำลังการผลิตที่มี
+                           <span class="inline-block w-3 h-3 bg-amber-500 rounded-sm mr-2 ml-4"></span>ภาระงานที่ต้องการ
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold text-stone-800 mb-3">Workflow การออกแบบที่ไร้คอขวด</h3>
+                        <p class="text-stone-600 mb-6">กระบวนการทำงานที่เป็นระบบระหว่างแอดมินและทีมออกแบบ เพื่อจัดการบรีฟจำนวนมากและลดการแก้ไขที่ไม่จำเป็น (คลิกเพื่อดูรายละเอียด)</p>
+                        <div class="space-y-3">
+                            <div class="workflow-step p-3 border-l-4 border-stone-300" data-detail="workflow-1">
+                                <h4 class="font-semibold">1. บรีฟใหม่ (แอดมิน)</h4>
+                                <p class="text-sm text-stone-500">รับบรีฟผ่านเทมเพลตมาตรฐาน</p>
+                            </div>
+                             <div class="workflow-step p-3 border-l-4 border-stone-300" data-detail="workflow-2">
+                                <h4 class="font-semibold">2. กำลังดำเนินการ (ออกแบบ)</h4>
+                                <p class="text-sm text-stone-500">นักออกแบบดึงงานจากคิว</p>
+                            </div>
+                             <div class="workflow-step p-3 border-l-4 border-stone-300" data-detail="workflow-3">
+                                <h4 class="font-semibold">3. รออนุมัติ (แอดมิน)</h4>
+                                <p class="text-sm text-stone-500">ส่งแบบให้ลูกค้าตรวจสอบ</p>
+                            </div>
+                             <div class="workflow-step p-3 border-l-4 border-stone-300" data-detail="workflow-4">
+                                <h4 class="font-semibold">4. แก้ไขงาน (สูงสุด 2 ครั้ง)</h4>
+                                <p class="text-sm text-stone-500">ดำเนินการตามนโยบาย</p>
+                            </div>
+                             <div class="workflow-step p-3 border-l-4 border-teal-500 bg-teal-50" data-detail="workflow-5">
+                                <h4 class="font-semibold text-teal-700">5. อนุมัติเพื่อการผลิต</h4>
+                                <p class="text-sm text-teal-600">ส่งมอบงานให้ฝ่ายผลิต</p>
+                            </div>
+                        </div>
+                        <div id="workflow-details" class="mt-4 p-4 bg-stone-50 rounded-md border border-stone-200 hidden">
+                            <h5 id="workflow-detail-title" class="font-bold text-lg mb-2"></h5>
+                            <p id="workflow-detail-text"></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="dashboard" class="content-section space-y-6">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex flex-wrap justify-between items-center gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-teal-600">Dashboard ควบคุมภารกิจ</h2>
+                            <p class="text-stone-700 leading-relaxed mt-2">ภาพรวมตัวชี้วัดสำคัญที่ต้องติดตามทุกสัปดาห์ เพื่อให้แน่ใจว่าเรายังคงอยู่บนเส้นทางสู่เป้าหมาย</p>
+                        </div>
+                        <div class="text-center">
+                             <p id="week-counter" class="text-lg font-semibold">สัปดาห์ที่: 1 / 16</p>
+                             <button id="next-week-btn" class="mt-2 bg-teal-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-teal-700 transition-colors">จำลองสัปดาห์ถัดไป &rarr;</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 ml-2">Marketing KPIs</h3>
+                    <div id="marketing-kpis" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4"></div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 ml-2">Sales KPIs</h3>
+                    <div id="sales-kpis" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4"></div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 ml-2">Operational KPIs</h3>
+                    <div id="operational-kpis" class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const marketingBudgetData = {
+                labels: ['เดือนที่ 1', 'เดือนที่ 2', 'เดือนที่ 3', 'เดือนที่ 4'],
+                datasets: [
+                    { label: 'Google Ads', data: [120000, 110000, 90000, 80000], backgroundColor: '#14b8a6' },
+                    { label: 'LinkedIn Ads', data: [50000, 60000, 50000, 40000], backgroundColor: '#0891b2' },
+                    { label: 'Facebook/IG Ads', data: [60000, 60000, 70000, 80000], backgroundColor: '#0ea5e9' },
+                    { label: 'TikTok Ads', data: [30000, 30000, 40000, 40000], backgroundColor: '#6366f1' },
+                    { label: 'Shopee/Lazada Ads', data: [30000, 30000, 40000, 50000], backgroundColor: '#f97316' },
+                    { label: 'Influencer/Content', data: [10000, 10000, 10000, 10000], backgroundColor: '#f59e0b' }
+                ]
+            };
+
+            const revenueGoalData = {
+                labels: ['เริ่มต้น', 'เดือนที่ 1', 'เดือนที่ 2', 'เดือนที่ 3', 'เดือนที่ 4'],
+                datasets: [{
+                    label: 'เป้าหมายรายได้สะสม (บาท)',
+                    data: [0, 1200000, 3200000, 5700000, 8000000],
+                    borderColor: '#0d9488',
+                    backgroundColor: 'rgba(13, 148, 136, 0.1)',
+                    fill: true,
+                    tension: 0.1
+                }]
+            };
+            
+            const capacityData = {
+                labels: ['การพิมพ์/ตัด', 'การแพ็ก/จัดส่ง'],
+                datasets: [
+                    {
+                        label: 'กำลังการผลิตที่มี (ชม.)',
+                        data: [538.5, 1645],
+                        backgroundColor: '#2dd4bf',
+                        borderColor: '#14b8a6',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'ภาระงานที่ต้องการ (ชม.)',
+                        data: [482, 1482],
+                        backgroundColor: '#fcd34d',
+                        borderColor: '#f59e0b',
+                        borderWidth: 1
+                    }
+                ]
+            };
+            
+            const kpiDefinitions = {
+                marketing: [
+                    { id: 'roas', name: 'ROAS (รวม)', target: 4.0, unit: 'x', type: 'gt' },
+                    { id: 'cpa', name: 'CPA (B2C)', target: 300, unit: 'บาท', type: 'lt' },
+                    { id: 'cpl', name: 'CPL (B2B)', target: 800, unit: 'บาท', type: 'lt' },
+                    { id: 'leads', name: 'Lead B2B ใหม่', target: 30, unit: 'ราย', type: 'gt' },
+                    { id: 'adspend', name: 'งบโฆษณา', target: 75000, unit: 'บาท', type: 'eq' }
+                ],
+                sales: [
+                    { id: 'sales', name: 'ยอดขายสัปดาห์', target: 250000, unit: 'บาท', type: 'gt', dynamicTarget: true, targets: [250000, 250000, 350000, 350000, 500000, 500000, 500000, 500000, 625000, 625000, 625000, 625000, 575000, 575000, 575000, 575000] },
+                    { id: 'close_rate', name: 'อัตราปิดการขาย B2B', target: 20, unit: '%', type: 'gt' },
+                    { id: 'aov_b2b', name: 'AOV (B2B)', target: 15000, unit: 'บาท', type: 'gt' },
+                    { id: 'aov_b2c', name: 'AOV (B2C)', target: 1500, unit: 'บาท', type: 'gt' },
+                    { id: 'sales_cycle', name: 'ระยะเวลาปิดการขาย', target: 14, unit: 'วัน', type: 'lt' }
+                ],
+                operational: [
+                    { id: 'prod_time', name: 'ระยะเวลาผลิต', target: 7, unit: 'วัน', type: 'lt' },
+                    { id: 'delivery_rate', name: 'ส่งมอบตรงเวลา', target: 98, unit: '%', type: 'gt' },
+                    { id: 'design_time', name: 'ระยะเวลาออกแบบ', target: 24, unit: 'ชม.', type: 'lt' },
+                    { id: 'defect_rate', name: 'อัตราของเสีย', target: 1, unit: '%', type: 'lt' }
+                ]
+            };
+            
+            let currentWeek = 1;
+
+            const charts = {};
+
+            function createChart(id, type, data, options) {
+                const ctx = document.getElementById(id).getContext('2d');
+                if (charts[id]) {
+                    charts[id].destroy();
+                }
+                charts[id] = new Chart(ctx, { type, data, options });
+            }
+
+            function initCharts() {
+                createChart('budgetChart', 'bar', marketingBudgetData, {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: { x: { stacked: true }, y: { stacked: true, ticks: { callback: value => new Intl.NumberFormat('th-TH').format(value) } } },
+                    plugins: { tooltip: { callbacks: { label: (context) => `${context.dataset.label}: ${new Intl.NumberFormat('th-TH', { style: 'currency', currency: 'THB', minimumFractionDigits: 0 }).format(context.raw)}` } } }
+                });
+
+                createChart('revenueGoalChart', 'line', revenueGoalData, {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: { y: { ticks: { callback: value => `${value / 1000000}M` } } },
+                    plugins: { tooltip: { callbacks: { label: (context) => `เป้าหมาย: ${new Intl.NumberFormat('th-TH', { style: 'currency', currency: 'THB', minimumFractionDigits: 0 }).format(context.raw)}` } } }
+                });
+                
+                createChart('capacityChart', 'bar', capacityData, {
+                    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                    scales: { x: { beginAtZero: true, title: { display: true, text: 'ชั่วโมงการทำงาน / เดือน' } } },
+                    plugins: { tooltip: { callbacks: { label: (context) => `${context.dataset.label}: ${context.raw.toFixed(1)} ชม.` } } }
+                });
+            }
+            
+            function getStatusClass(value, target, type) {
+                const tolerance = 0.10 * target;
+                if (type === 'gt') {
+                    if (value >= target) return 'status-green';
+                    if (value >= target - tolerance) return 'status-yellow';
+                    return 'status-red';
+                } else if (type === 'lt') {
+                    if (value <= target) return 'status-green';
+                    if (value <= target + tolerance) return 'status-yellow';
+                    return 'status-red';
+                } else { // 'eq'
+                    if (value >= target - tolerance && value <= target + tolerance) return 'status-green';
+                    if (value >= target - (2*tolerance) && value <= target + (2*tolerance)) return 'status-yellow';
+                    return 'status-red';
+                }
+            }
+            
+            function createKpiCard(kpi, value) {
+                const target = kpi.dynamicTarget ? kpi.targets[currentWeek - 1] : kpi.target;
+                const statusClass = getStatusClass(value, target, kpi.type);
+                const formattedValue = new Intl.NumberFormat('th-TH', { maximumFractionDigits: 1 }).format(value);
+                const formattedTarget = new Intl.NumberFormat('th-TH', { maximumFractionDigits: 1 }).format(target);
+                
+                return `
+                    <div class="kpi-card bg-white p-4 rounded-lg shadow-sm border border-stone-200">
+                        <div class="flex justify-between items-start">
+                             <h4 class="font-semibold text-stone-700 text-sm md:text-base">${kpi.name}</h4>
+                             <span class="status-dot ${statusClass}"></span>
+                        </div>
+                        <p class="text-2xl md:text-3xl font-bold text-stone-900 mt-2">${formattedValue} <span class="text-base font-medium text-stone-500">${kpi.unit}</span></p>
+                        <p class="text-sm text-stone-500 mt-1">เป้าหมาย: ${formattedTarget} ${kpi.unit}</p>
+                    </div>
+                `;
+            }
+            
+            function updateKpiDashboard() {
+                const marketingContainer = document.getElementById('marketing-kpis');
+                const salesContainer = document.getElementById('sales-kpis');
+                const operationalContainer = document.getElementById('operational-kpis');
+                
+                marketingContainer.innerHTML = kpiDefinitions.marketing.map(kpi => {
+                    const value = generateSimulatedValue(kpi.target, kpi.type);
+                    return createKpiCard(kpi, value);
+                }).join('');
+
+                salesContainer.innerHTML = kpiDefinitions.sales.map(kpi => {
+                    const target = kpi.dynamicTarget ? kpi.targets[currentWeek - 1] : kpi.target;
+                    const value = generateSimulatedValue(target, kpi.type);
+                    return createKpiCard(kpi, value);
+                }).join('');
+
+                operationalContainer.innerHTML = kpiDefinitions.operational.map(kpi => {
+                    const value = generateSimulatedValue(kpi.target, kpi.type);
+                    return createKpiCard(kpi, value);
+                }).join('');
+            }
+
+            function generateSimulatedValue(target, type) {
+                const randomness = (Math.random() - 0.4) * 0.4; // between -0.16 and +0.24
+                let value = target * (1 + randomness);
+                return value;
+            }
+
+            const navButtons = document.querySelectorAll('.nav-btn');
+            const contentSections = document.querySelectorAll('.content-section');
+
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.dataset.target;
+
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    contentSections.forEach(section => {
+                        section.classList.remove('active');
+                        if (section.id === targetId) {
+                            section.classList.add('active');
+                        }
+                    });
+                });
+            });
+            
+            document.getElementById('next-week-btn').addEventListener('click', () => {
+                if (currentWeek < 16) {
+                    currentWeek++;
+                    document.getElementById('week-counter').textContent = `สัปดาห์ที่: ${currentWeek} / 16`;
+                    updateKpiDashboard();
+                }
+            });
+
+            const funnelSteps = document.querySelectorAll('.funnel-step');
+            const funnelDetailsContainer = document.getElementById('funnel-details');
+            const funnelDetailTitle = document.getElementById('funnel-detail-title');
+            const funnelDetailText = document.getElementById('funnel-detail-text');
+            const funnelDetailsData = {
+                "funnel-1": { title: "ขั้นที่ 1: การเก็บ Lead (TOFU)", text: "ลูกค้ากรอกฟอร์ม 'ขอใบเสนอราคา' บน Landing Page ข้อมูลจะถูกส่งเข้า CRM และระบบจะส่งอีเมลขอบคุณอัตโนมัติ" },
+                "funnel-2": { title: "ขั้นที่ 2: การคัดกรองและติดต่อ (MOFU)", text: "ภายใน 2 ชม. ทีมแอดมินจะโทรหรือส่งข้อความเพื่อสอบถามข้อมูลเพิ่มเติมและประเมินความต้องการเบื้องต้น" },
+                "funnel-3": { title: "ขั้นที่ 3: การส่งใบเสนอราคา (MOFU)", text: "แอดมินส่งบรีฟมาตรฐานให้ทีมออกแบบ และส่งใบเสนอราคาพร้อมแบบร่างให้ลูกค้าภายใน 24 ชม." },
+                "funnel-4": { title: "ขั้นที่ 4: การติดตามผล (BOFU)", text: "หากไม่มีการตอบกลับใน 48 ชม. ระบบติดตามผลจะเริ่มทำงาน โดยเน้นการให้ข้อมูลด้านคุณค่า ไม่ใช่แค่ราคา" },
+                "funnel-5": { title: "ขั้นที่ 5: ปิดการขาย (Closed-Won)", text: "ลูกค้ายืนยันการสั่งซื้อและชำระมัดจำ แอดมินเปลี่ยนสถานะใน CRM และส่งมอบงานให้ฝ่ายผลิต" }
+            };
+            funnelSteps.forEach(step => {
+                step.addEventListener('click', () => {
+                    const detailKey = step.dataset.detail;
+                    const data = funnelDetailsData[detailKey];
+                    funnelDetailTitle.textContent = data.title;
+                    funnelDetailText.textContent = data.text;
+                    funnelDetailsContainer.classList.remove('hidden');
+                });
+            });
+
+            const workflowSteps = document.querySelectorAll('.workflow-step');
+            const workflowDetailsContainer = document.getElementById('workflow-details');
+            const workflowDetailTitle = document.getElementById('workflow-detail-title');
+            const workflowDetailText = document.getElementById('workflow-detail-text');
+            const workflowDetailsData = {
+                "workflow-1": { title: "1. บรีฟใหม่", text: "แอดมินรับบรีฟจากลูกค้าผ่านเทมเพลตมาตรฐาน (Google Forms/Notion) และตรวจสอบความครบถ้วนของข้อมูลก่อนส่งต่อ" },
+                "workflow-2": { title: "2. กำลังดำเนินการ", text: "ทีมออกแบบดึงงานจากคิวในระบบ Trello/Asana เพื่อเริ่มดำเนินการออกแบบตามบรีฟที่สมบูรณ์แล้ว" },
+                "workflow-3": { title: "3. รออนุมัติ", text: "เมื่อออกแบบเสร็จ จะส่งกลับให้แอดมินเพื่อนำเสนอแบบร่างแรกให้ลูกค้าตรวจสอบและให้ความคิดเห็น" },
+                "workflow-4": { title: "4. แก้ไขงาน", text: "ดำเนินการแก้ไขตามความคิดเห็นของลูกค้าภายใต้นโยบาย 'แก้ไขฟรี 2 ครั้ง' การแก้ไขเพิ่มเติมจะมีค่าใช้จ่าย" },
+                "workflow-5": { title: "5. อนุมัติเพื่อการผลิต", text: "เมื่อลูกค้าอนุมัติแบบสุดท้ายแล้ว แอดมินจะส่งไฟล์งานและใบสั่งผลิตที่สมบูรณ์ไปยังฝ่ายผลิตเพื่อเริ่มกระบวนการ" }
+            };
+            workflowSteps.forEach(step => {
+                step.addEventListener('click', () => {
+                    const detailKey = step.dataset.detail;
+                    const data = workflowDetailsData[detailKey];
+                    workflowDetailTitle.textContent = data.title;
+                    workflowDetailText.textContent = data.text;
+                    workflowDetailsContainer.classList.remove('hidden');
+                });
+            });
+
+            initCharts();
+            updateKpiDashboard();
+        });
+    </script>
+</body>
+</html>
